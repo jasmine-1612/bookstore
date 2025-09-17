@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Store - Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f0fff0, #60a1ff);
+            min-height: 100vh;
+            margin: 0;
+        }
+        .navbar {
+            background: linear-gradient(90deg, #36d1dc, #5b86e5);
+        }
+        .navbar .navbar-brand, .navbar .nav-link {
+            color: white !important;
+            font-weight: 500;
+        }
+        .container-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 60px 20px;
+        }
+        .card-custom {
+            background: #ffffffcc;
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+        .card-custom h1, .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .card-custom p, .book-card p {
+            color: #555;
+            margin-bottom: 20px;
+        }
+        .btn-primary {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(90deg, #36d1dc, #5b86e5);
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(90deg, #5b86e5, #36d1dc);
+            transform: scale(1.05);
+        }
+        .card-custom img, .book-card img {
+            max-width: 100%;
+            margin-bottom: 20px;
+            border-radius: 12px;
+        }
+
+        /* Book sections */
+        .books-section {
+            max-width: 1200px;
+            width: 100%;
+            margin-bottom: 50px;
+        }
+        .books-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .book-card {
+            background: #ffffffcc;
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            width: 180px;
+            text-align: center;
+            padding: 15px;
+            transition: transform 0.3s ease;
+        }
+        .book-card:hover {
+            transform: translateY(-5px);
+        }
+        .book-card h5 {
+            font-size: 1rem;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .book-card small {
+            color: #777;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+    </style>
+</head>
+<body>
+
+	<div class="books-grid">
+	  <div class="book-card" th:each="book : ${books}">
+	      <img th:src="@{/images/{img}(img=${book.image})}" th:alt="${book.name}">
+	      <h5 th:text="${book.name}"></h5>
+	      <small th:text="'by ' + ${book.author}"></small>
+	  </div>
+	</div>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">📚 Book Store</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" 
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="login">My Books</a></li>
+                <li class="nav-item"><a class="nav-link" href="available_books">Available Books</a></li>
+            </ul>
+            <div class="d-flex">
+                <a href="admin/login" class="btn btn-outline-light">Admin</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Home Card -->
+<div class="container-page">
+    <div class="card-custom">
+        <h1>Welcome to 📚 Book Store</h1>
+        <p>Your one-stop destination for managing and exploring books.</p>
+        <img src="/images/Capture.PNG" alt="Book Store" />
+        <p>Browse available books, manage your collection, or register to start adding your own.</p>
+        <a href="available_books" class="btn btn-primary">Explore Books</a>
+    </div>
+</div>
+
+<!-- Popular Books Section -->
+<!-- Popular Books Section -->
+<div class="books-section">
+    <h2 class="section-title">Popular Books</h2>
+    <div class="books-grid">
+        <div class="book-card" th:each="book : ${popularBooks}">
+            <img th:src="@{/images/{img}(img=${book.image})}" th:alt="${book.name}">
+            <h5 th:text="${book.name}">Book Title</h5>
+            <small th:text="'by ' + ${book.author}">Author Name</small>
+        </div>
+    </div>
+</div>
+
+<!-- Books for Kids Section -->
+<div class="books-section">
+    <h2 class="section-title">Books for Kids</h2>	
+    <div class="books-grid">
+        <div class="book-card" th:each="book : ${kidsBooks}">
+            <img th:src="@{/images/{img}(img=${book.image})}" th:alt="${book.name}">
+            <h5 th:text="${book.name}">Book Title</h5>
+            <small th:text="'by ' + ${book.author}">Author Name</small>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

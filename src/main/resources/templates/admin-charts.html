@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Charts</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="p-4">
+
+<div class="container">
+    <h2 class="text-center mb-4">📊 Admin Dashboard - Charts</h2>
+
+    <div class="mb-4"><canvas id="categoryChart"></canvas></div>
+    <div class="mb-4"><canvas id="authorChart"></canvas></div>
+    <div class="mb-4"><canvas id="monthlyChart"></canvas></div>
+    <div class="mb-4"><canvas id="topBooksChart"></canvas></div>
+</div>
+
+<script th:inline="javascript">
+    const categories = /*[[${categories}]]*/ [];
+    const categoryCounts = /*[[${categoryCounts}]]*/ [];
+
+    const authors = /*[[${authors}]]*/ [];
+    const authorCounts = /*[[${authorCounts}]]*/ [];
+
+    const months = /*[[${months}]]*/ [];
+    const monthlyCounts = /*[[${monthlyCounts}]]*/ [];
+
+    const topBooks = /*[[${topBooks}]]*/ [];
+    const topBookCounts = /*[[${topBookCounts}]]*/ [];
+
+    new Chart(document.getElementById('categoryChart'), {
+        type: 'bar',
+        data: { labels: categories, datasets: [{ label: 'Books by Category', data: categoryCounts }] }
+    });
+
+    new Chart(document.getElementById('authorChart'), {
+        type: 'bar',
+        data: { labels: authors, datasets: [{ label: 'Books by Author', data: authorCounts }] }
+    });
+
+    new Chart(document.getElementById('monthlyChart'), {
+        type: 'line',
+        data: { labels: months, datasets: [{ label: 'Books Added Per Month', data: monthlyCounts, fill: true, borderColor: 'blue' }] }
+    });
+
+    new Chart(document.getElementById('topBooksChart'), {
+        type: 'bar',
+        data: { labels: topBooks, datasets: [{ label: 'Top Books by Users', data: topBookCounts }] }
+    });
+</script>
+
+</body>
+</html>

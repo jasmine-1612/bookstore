@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Users</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f0fff0, #60a1ff);
+            min-height: 100vh;
+        }
+        .container {
+            margin-top: 50px;
+            background: #ffffffcc;
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+        .table thead {
+            background: linear-gradient(90deg, #36d1dc, #5b86e5);
+            color: white;
+        }
+        .table tbody tr:hover {
+            background-color: #f0f8ff;
+        }
+        .btn-back {
+            background: linear-gradient(90deg, #5b86e5, #36d1dc);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 15px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+        .btn-back:hover {
+            transform: scale(1.05);
+            transition: 0.3s;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="/admin/dashboard" class="btn-back">← Back to Dashboard</a>
+    <h2>Registered Users</h2>
+    <table class="table table-bordered table-hover text-center">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Books</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user, userStat : ${users}">
+                <td th:text="${user.id}">1</td>
+                <td th:text="${user.name}">John Doe</td>
+                <td th:text="${user.email}">john@example.com</td>
+                <td>
+                    <button type="button" class="btn btn-info btn-sm" 
+                            data-bs-toggle="modal" 
+                            th:data-bs-target="'#booksModal' + ${userStat.index}">
+                        View Books (<span th:text="${#lists.size(user.books)}">0</span>)
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Modals outside the table -->
+<div th:each="user, userStat : ${users}">
+    <div class="modal fade" th:id="'booksModal' + ${userStat.index}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" th:text="'Books of ' + ${user.name}">Books</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group">
+                        <li class="list-group-item" th:each="book : ${user.books}" 
+                            th:text="${book.name} + ' - ' + ${book.author} + ' ($' + ${book.price} + ')'">
+                            Book Name - Author ($Price)
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
